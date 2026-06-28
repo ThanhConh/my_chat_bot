@@ -1,0 +1,54 @@
+app:
+  name: LTC-chatbot-app
+  version: 1.0.0-beta
+  env: production
+
+# cấu hình đường dẫn data
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  schema_dir: data/schemas
+
+# cấu hình chunk khi dùng hybird hoặc chunking thông thường
+chunking:
+  chunk_size: 512
+  chunk_overlap: 50
+
+# cấu hình embedding
+embedding:
+  model: intfloat/multilingual-e5-small
+  batch_size: 32
+  device: cpu
+
+vecto_database:
+  type: qdrant
+  host: localhost
+  port: 6333
+  url: http://localhost:6333
+  api_key: null # nếu dùng Qdrant Cloud
+  collection_name: ltc_chatbot_collection
+  distance: cosine # cosine | dot | euclid
+  vecto_size: 384
+  timeout: 30 # connection timeout in seconds
+
+# cấu hình model llm
+llm:
+  provider: ollama
+  model_name: qwen2.5:3b
+  base_url: http://localhost:11434
+  temeparture: 0.2
+  max_tokens: 1024 # giảm từ 1024 -> 512 để nhanh hơn
+  timeout: 60
+
+# cấu hình RAG
+retrieval:
+  top_k: 10 # số lượng chunk lấy vè  để dùng làm context cho llm
+  score_threshold: 0.0 # sau khi tính cosine similariry thì chỉ lấy những chunk có điểm số trên ngưỡng này
+  dense_weight: 0.6 # trong hybrid retriever, trọng số của dense retriever
+  bm25_weight: 0.4 # trong hybrid retriever, trọng số của bm25 retrierver
+
+# cấu hình reranking
+reranking:
+  model: 'cross-encoder/ms-marco-MiniLM-L-6-v2'
+  device: cpu
+  top_k: 5

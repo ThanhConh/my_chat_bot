@@ -1,0 +1,75 @@
+version: 1
+
+# cấu hình format hiển thị của log. Ví dụ [2026-01-15 09:32:10] Infor - ingestion - loaded 152 records
+formatters:
+  simple:
+    format: '[%(asctime)] %(levelname)s - %(name) - %(message)s'
+    # trong đó:
+    # %(asctime): thời gian
+    # %(levelname): mức độ quan trọng của log (info, info, error, debug...)
+    # %(name): tên của logger
+    # %(message): nội dung của log
+    datefmt: '%Y-%m-%d %H:%M:%S'
+  
+# cấu hình console
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: simple
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.FileHandler
+    level: INFO
+    formatter: simple
+    filename: logs/application.log
+
+# Cấu hình logger cho từng module
+loggers:
+  ingestion:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  
+  embedding:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  
+  scoring:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+
+  vecto_database:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+
+  llm:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  
+  retrieval:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  
+  reranking:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  
+  chat:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+
+# cấu hình logger mặc định
+root:
+  level: INFO
+  handlers: [console, file]
+
+
