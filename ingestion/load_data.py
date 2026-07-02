@@ -39,6 +39,8 @@ def load_data():
         logger.info(f"Processing table: {table_name} with {len(table_data)} rows")
         output_file = OUTPUT_PATH / f"{table_name}.json"
         
+        # mở file để ghi lại
+        # tham số ensure_ascii đảm bảo được data được chuyển sang tiếng việt hay là icon được dữ nguyên
         with open(output_file, "w", encoding="utf-8") as file:
             json.dump(table_data, file, ensure_ascii=False, indent=4)
 
