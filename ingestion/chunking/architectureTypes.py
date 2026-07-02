@@ -1,12 +1,11 @@
 import json 
 import logging
 from pathlib import Path
-from core.setup_logging import setup_logging
 
 from core.settings_loader import load_settings
 
 settings = load_settings()
-logger = logging.getLogger("ingestion.architectureTypes")
+logger = logging.getLogger("ingestion")
 
 def chunk_architecture_types():
     file_path = Path(settings["data"]["processed_dir"] / "architectureTypes.json")
@@ -19,6 +18,10 @@ def chunk_architecture_types():
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
             logger.info(f"Loaded {len(data)} architecture types from {file_path}")
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to decode JSON from {file_path}: {e}")
+        return []
+
     except Exception as e:
         logger.error(f"Failed to load data from {file_path}: {e}")
         return []
@@ -82,8 +85,9 @@ def chunk_architecture_types():
             },
         })
     
-        if not chunks:
-            logger.warning("No chunks generated")
-            return []
+    if not chunks:
+        logger.warning("No chunks generated")
+        return []
 
+    logger.info(f"Successfully generated {len(chunks)} chunks from architecture types")
     return chunks   
