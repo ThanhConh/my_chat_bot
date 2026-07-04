@@ -1,8 +1,7 @@
 import logging
 
-from core.setup_logging import setup_logging
 from core.settings_loader import load_settings
-
+from core.setup_logging import setup_logging
 from ingestion.chunking.architectureTypes import chunk_architecture_types
 from ingestion.chunking.companyInfo import chunk_company_info
 from ingestion.chunking.heroSlides import chunk_hero_slides

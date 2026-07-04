@@ -1,4 +1,4 @@
-import json 
+import json
 import logging
 from pathlib import Path
 
@@ -15,7 +15,7 @@ def chunk_interior_styles():
         return []
 
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             interior_styles = json.load(file)
             logger.info(f"Loaded {len(interior_styles)} interior styles from {file_path}")
     except json.JSONDecodeError as e:
@@ -23,16 +23,16 @@ def chunk_interior_styles():
         return []
 
     if isinstance(interior_styles, dict):
-        interior_styles = list(interior.values())
+        interior_styles = list(interior_styles.values())
 
     if not isinstance(interior_styles, list):
-        logger.error(f"Invalid data format in {file_path}. Expected a list, got {type(architecture_types)}")
+        logger.error(f"Invalid data format in {file_path}. Expected a list, got {type(interior_styles)}")
         return []
 
     if not interior_styles:
         logger.warning(f"No interior styles found in {file_path}")
         return []
-        
+
     chunks = []
 
     for idx, interior_style in enumerate(interior_styles):
@@ -45,8 +45,8 @@ def chunk_interior_styles():
         interior_slug = interior_style.get("slug", "")
         interior_description = interior_style.get("description")
         interior_image_url = interior_style.get("imageUrl", "")
-        
-        
+
+
         if not interior_name:
             logger.warning(f"Interior style at index {idx} has no name")
             continue
@@ -63,7 +63,7 @@ def chunk_interior_styles():
             logger.warning(f"Interior style at index {idx} has no image url")
             continue
 
-        
+
         text_parts = [
             f"Loại kiến trúc: {interior_name}",
             f"Hình ảnh minh họa: {interior_name} : {interior_image_url}",
@@ -81,10 +81,10 @@ def chunk_interior_styles():
                 "interior_image_url": interior_image_url,
             },
         })
-    
+
     if not chunks:
         logger.warning("No chunks generated")
         return []
 
     logger.info(f"Successfully generated {len(chunks)} chunks from interior styles")
-    return chunks   
+    return chunks

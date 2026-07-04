@@ -1,8 +1,9 @@
-import logging 
-from core.setup_logging import setup_logging
-from core.settings_loader import load_settings
-from pathlib import Path
 import json
+import logging
+from pathlib import Path
+
+from core.settings_loader import load_settings
+
 settings = load_settings()
 logger = logging.getLogger("ingestion")
 
@@ -13,13 +14,13 @@ def chunk_company_info():
     if not file_path.exists():
         logger.error(f"File not found {file_path}")
         return []
-    
+
     # lấy data từ companyInfo
     # đọc file đó lên
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            conpany_info = json.load(file) # file không phải file Path
-            logger.info(f"Loaded {len(conpany_info)} records from {file_path}")
+        with open(file_path, encoding="utf-8") as file:
+            company_info = json.load(file) # file không phải file Path
+            logger.info(f"Loaded {len(company_info)} records from {file_path}")
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode JSON from {file_path}: {e}")
         return []
@@ -27,7 +28,7 @@ def chunk_company_info():
     # sau khi mở file => tiếp tục kiểm tra company phải list hay khong. bởi vì trong company info có thể chứa nhiều item con. Một item là 1 dict và phải là 1 list chứa nhiều dict
     if isinstance(company_info, dict):
         company_info = list(company_info) # convert sang list nếu nó là dict
-    
+
     # kiểm tra thêm lần nữa
     if not isinstance(company_info, list):
         logger.error(f"Invalid data format in {file_path}. Expected a list, got {type(company_info)}")
@@ -51,7 +52,7 @@ def chunk_company_info():
         if not isinstance(company_name, str) or not company_name:
             logger.warning(f"Company name at index {idx} is invalid")
             continue
-        
+
         company_slogan = info.get("companySlogan", "")
         # kiểm tra company slogan có dữ liệu và có phải chuỗi hay không
         if not isinstance(company_slogan, str) or not company_slogan:
@@ -92,6 +93,7 @@ def chunk_company_info():
         if not isinstance(company_website, str) or not company_website:
             logger.warning(f"Website at index {idx} is invalid")
             continue
+
         company_social_links = info.get("socialLinks", {})
         # kiểm tra social links có dữ liệu và có phải dict hay không
         if not isinstance(company_social_links, dict) or not company_social_links:
@@ -100,7 +102,7 @@ def chunk_company_info():
         # xử lý các gía trị null của social links
         if isinstance(company_social_links, dict):
             company_social_text = ", ".join([f"{k}: {v}" for k, v in company_social_links.items() if v])
-        
+
 
         company_total_employees = info.get("totalEmployees")
         # kiểm tra total employees có dữ liệu và có phải số hay không
@@ -119,8 +121,8 @@ def chunk_company_info():
             f"Tên công ty: {company_name}",
             f"Khẩu hiệu công ty: {company_name}: {company_slogan}",
             f"Mô tả công ty: {company_name}: {company_description}",
-            f"Số điện thoại công ty: {company_name}: {", ".join(compnay_hotlines)}",
-            f"Email công ty: {company_name}: {", ".join(company_emails)}",
+            f"Số điện thoại công ty: {company_name}: {', '.join(compnay_hotlines)}",
+            f"Email công ty: {company_name}: {', '.join(company_emails)}",
             f"Địa chỉ chính công ty: {company_name}: {company_main_address}",
             f"Giờ làm việc công ty: {company_name}: {company_working_hours}",
             f"Website công ty: {company_name}: {company_website}",
@@ -130,7 +132,7 @@ def chunk_company_info():
         ]
 
         text = "\n".join(text_parts)
-        
+
         chunk = {
             "text": text,
             "metadata": {
@@ -149,10 +151,11 @@ def chunk_company_info():
                 "company_total_projects": company_total_projects,
             }
         }
+        chunks.append(chunk)
 
     if not chunks:
         logger.warning("No chunks generated")
         return []
-    
+
     logger.info(f"Successfully generated {len(chunks)} chunks from company info")
     return chunks

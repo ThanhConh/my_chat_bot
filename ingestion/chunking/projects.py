@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 from pathlib import Path
 
 from core.settings_loader import load_settings
@@ -16,7 +16,7 @@ def chunk_projects():
         return []
 
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             projects = json.load(file)
             logger.info(f"Loaded {len(projects)} projects from {file_path}")
     except json.JSONDecodeError as e:
@@ -47,9 +47,9 @@ def chunk_projects():
             continue
 
         project_slug = project.get("slug", "")
-        
+
         project_description = project.get("description", "")
-        
+
         project_investor = project.get("investor", "")
         project_location = project.get("location")
         project_area = project.get("area", "")
@@ -60,7 +60,7 @@ def chunk_projects():
         if not isinstance(project_category, dict):
             project_category = {}
             logger.warning(f"Invalid project category data at index {idx}: {project_category}")
-            
+
         project_category_id = project_category.get("id")
         project_category_name = project_category.get("name", "")
         if not project_category_name or not isinstance(project_category_name, str):
@@ -85,14 +85,14 @@ def chunk_projects():
             project_architecture_type = {}
             logger.warning(f"Invalid project architecture type data at index {idx}: {project_architecture_type}")
 
-        project_architecture_type_id = project_architecture_type_data.get("id")
+        project_architecture_type_id = project_architecture_type.get("id")
 
-        project_architecture_type_name = project_architecture_type_data.get("name", "")
+        project_architecture_type_name = project_architecture_type.get("name", "")
         if not project_architecture_type_name or not isinstance(project_architecture_type_name, str):
             logger.warning(f"Invalid project architecture type name at index {idx}: {project_architecture_type_name}")
             continue
-        
-        project_architecture_type_slug = project_architecture_type_data.get("slug")
+
+        project_architecture_type_slug = project_architecture_type.get("slug")
 
         text_parts = [
             f"Tên dự án: {project_title}",

@@ -1,6 +1,7 @@
-from pathlib import Path
 import json
 import logging
+from pathlib import Path
+
 from bs4 import BeautifulSoup
 from core.setting_loader import load_settings
 
@@ -22,7 +23,7 @@ def chunk_news():
         return []
 
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             news_data = json.load(f)
             logger.info(f"Loaded {len(news_data)} news articles from {file_path}")
     except json.JSONDecodeError as e:
@@ -35,9 +36,9 @@ def chunk_news():
     if not isinstance(news_data, list):
         logger.error("Invalid news data format")
         return []
-    
+
     if not news_data:
-        logger.warning("No news found in the data") 
+        logger.warning("No news found in the data")
         return []
 
     chunks = []
@@ -64,10 +65,10 @@ def chunk_news():
 
         news_content_text = html_to_text(news_content)
         news_image = news_item.get("thumbnailUrl")
-        new_category = news_item.get("category")    
-        new_category_id = new_item.get("categoryId")
-        new_category_name = new_item.get("categoryName")
-        new_category_slug = new_item.get("categorySlug")
+        new_category = news_item.get("category")
+        new_category_id = news_item.get("categoryId")
+        new_category_name = news_item.get("categoryName")
+        new_category_slug = news_item.get("categorySlug")
 
         text_parts = [
             f"Tiêu đề tin tức: {news_title}",
@@ -94,7 +95,7 @@ def chunk_news():
         }
         chunks.append(chunk)
 
-    # Lưu 
+    # Lưu
     if not chunks:
         logger.warning("No chunks created")
         return []
@@ -102,4 +103,3 @@ def chunk_news():
     logger.info(f"Created {len(chunks)} chunks")
     return chunks
 
-        

@@ -1,10 +1,12 @@
-import yaml
 import os
 
+import yaml
+
+
 def load_settings():
-    with open("config/settings.yaml", "r") as file:
+    with open("config/settings.yaml") as file:
         settings = yaml.safe_load(file)
-    
+
     # Override với enviroment variables
     if os.getenv("APP_ENV"):
         settings["app"]["env"] = os.getenv("APP_ENV")
@@ -20,7 +22,7 @@ def load_settings():
         settings["vector_database"]["collection_name"] = os.getenv("QDRANT_COLLECTION_NAME")
     if os.getenv("QDRANT_TIMEOUT"):
         settings["vector_database"]["timeout"] = int(os.getenv("QDRANT_TIMEOUT"))
-    
+
     # Embedding overrides
     if os.getenv("EMBEDDING_MODEL"):
         settings["embedding"]["model"] = os.getenv("EMBEDDING_MODEL")
@@ -28,7 +30,7 @@ def load_settings():
         settings["embedding"]["device"] = os.getenv("EMBEDDING_DEVICE")
     if os.getenv("EMBEDDING_BATCH_SIZE"):
         settings["embedding"]["batch_size"] = int(os.getenv("EMBEDDING_BATCH_SIZE"))
-    
+
     # LLM overrides
     if os.getenv("LLM_PROVIDER"):
         settings["llm"]["provider"] = os.getenv("LLM_PROVIDER")
@@ -42,7 +44,7 @@ def load_settings():
         settings["llm"]["max_tokens"] = int(os.getenv("LLM_MAX_TOKENS"))
     if os.getenv("LLM_TIMEOUT"):
         settings["llm"]["timeout"] = int(os.getenv("LLM_TIMEOUT"))
-    
+
     # Retrieval overrides
     if os.getenv("RETRIEVAL_TOP_K"):
         settings["retrieval"]["top_k"] = int(os.getenv("RETRIEVAL_TOP_K"))
@@ -52,7 +54,7 @@ def load_settings():
         settings["retrieval"]["dense_weight"] = float(os.getenv("DENSE_WEIGHT"))
     if os.getenv("BM25_WEIGHT"):
         settings["retrieval"]["bm25_weight"] = float(os.getenv("BM25_WEIGHT"))
-    
+
     # Reranking overrides
     if "reranking" not in settings:
         settings["reranking"] = {}
@@ -62,5 +64,5 @@ def load_settings():
         settings["reranking"]["device"] = os.getenv("RERANKING_DEVICE")
     if os.getenv("RERANKING_TOP_K"):
         settings["reranking"]["top_k"] = int(os.getenv("RERANKING_TOP_K"))
-    
+
     return settings

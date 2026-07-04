@@ -1,4 +1,4 @@
-import json 
+import json
 import logging
 from pathlib import Path
 
@@ -15,7 +15,7 @@ def chunk_project_categories():
         return []
 
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             project_categories = json.load(file)
             logger.info(f"Loaded {len(project_categories)} project categories from {file_path}")
     except json.JSONDecodeError as e:
@@ -32,7 +32,7 @@ def chunk_project_categories():
     if not project_categories:
         logger.warning(f"No project categories found in {file_path}")
         return []
-        
+
     chunks = []
     for idx, project_category in enumerate(project_categories):
         if not isinstance(project_category, dict):
@@ -43,11 +43,11 @@ def chunk_project_categories():
         category_name = project_category.get("name", "")
         category_slug = project_category.get("slug", "")
         category_description = project_category.get("description")
-        
+
         if not category_name:
             logger.warning(f"Project category at index {idx} has no name")
             continue
-  
+
         text_parts = [
             f"Loại dự án: {category_name}",
         ]
@@ -63,10 +63,10 @@ def chunk_project_categories():
                 "category_description": category_description,
             },
         })
-    
+
     if not chunks:
         logger.warning("No chunks generated")
         return []
 
     logger.info(f"Successfully generated {len(chunks)} chunks from news categories")
-    return chunks   
+    return chunks
