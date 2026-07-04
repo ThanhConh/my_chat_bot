@@ -1,8 +1,7 @@
-import logging
 import json
+import logging
 from pathlib import Path
 
-from core.setup_logging import setup_logging
 from core.settings_loader import load_settings
 
 settings = load_settings()
@@ -14,10 +13,10 @@ def chunk_hero_slides():
     if not file_path.exists():
         logger.error(f"File not found {file_path}")
         return []
-    
+
     # đọc file heroSlides.json
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             hero_slides = json.load(file) # load file = đọc file
             logger.info(f"Loaded {len(hero_slides)} records from {file_path}")
     except json.JSONDecodeError as e:
@@ -27,23 +26,23 @@ def chunk_hero_slides():
     # kiểm tra có phải là dict hay không nếu đúng chuyển sang list
     if isinstance(hero_slides, dict):
         hero_slides = list(hero_slides)
-    
+
     # kiểm tra thêm lần nữa
     if not isinstance(hero_slides, list):
         logger.error(f"Invalid data format in {file_path}. Expected a list, got {type(hero_slides)}")
         return []
-    
+
     # kiểm tra trong list này có dữ liệu hay không
     if not hero_slides:
         logger.warning("No hero slides found")
         return []
-    
+
     # tạo list chunks
     chunks = []
 
-    for idx, slides in enumerate(hero_slides):
+    for idx, slide in enumerate(hero_slides):
         # kiểm tra từng slides có phải dict hay không
-        if not isistance(slide, dict):
+        if not isinstance(slide, dict):
             logger.warning(f"Invalid hero slides at index {idx}: {slide}")
             continue
 
@@ -53,7 +52,7 @@ def chunk_hero_slides():
         if not company_title or not isinstance(company_title, str):
             logger.warning(f"Invalid company title at index {idx}: {company_title}")
             continue
-        
+
         compnay_subtitle = slide.get("subtitle", "")
         if not compnay_subtitle or not isinstance(compnay_subtitle, str):
             logger.warning(f"Invalid company subtitle at index {idx}: {compnay_subtitle}")
@@ -76,7 +75,7 @@ def chunk_hero_slides():
         ]
 
         text = "\n".join(text_parts)
-        # sau khi tạo ra được text thì mình cần thêm metadata vào 
+        # sau khi tạo ra được text thì mình cần thêm metadata vào
         chunks.append({
             "text": text,
             "metadata": {
@@ -93,7 +92,7 @@ def chunk_hero_slides():
     if not chunks:
         logger.warning("No chunks generated")
         return []
-    
+
     logger.info(f"Successfully generated {len(chunks)} chunks from hero slides")
 
     return chunks

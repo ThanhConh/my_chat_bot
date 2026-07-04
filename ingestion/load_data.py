@@ -1,9 +1,9 @@
 # tiep den xu ly data lon thanh cac file json nho hon chua cac table item
 import json
 import logging
-from pathlib import Path # chuyen tu str sang duong dan 
-from core.settings_loader import load_settings
+from pathlib import Path  # chuyen tu str sang duong dan
 
+from core.settings_loader import load_settings
 from core.setup_logging import setup_logging
 
 setup_logging()
@@ -22,13 +22,13 @@ def load_data():
         logger.error(f"File not found {file_path}")
         return []
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(file_path, encoding="utf-8") as file:
             data = json.load(file)
             logger.info(f"Loaded {len(data)} records from {file_path}")
     except Exception as e:
         logger.error(f"Failed to load data from {file_path}: {e}")
         return []
-    
+
     tables = data.get("tables", [])
 
     for table_name, table_data in tables.items():
@@ -38,7 +38,7 @@ def load_data():
 
         logger.info(f"Processing table: {table_name} with {len(table_data)} rows")
         output_file = OUTPUT_PATH / f"{table_name}.json"
-        
+
         # mở file để ghi lại
         # tham số ensure_ascii đảm bảo được data được chuyển sang tiếng việt hay là icon được dữ nguyên
         with open(output_file, "w", encoding="utf-8") as file:

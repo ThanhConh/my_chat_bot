@@ -51,3 +51,6 @@ htmlcov/
 
 # explain module
 explain_module/
+
+# ruff
+.ruff_cache/

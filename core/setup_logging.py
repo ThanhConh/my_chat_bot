@@ -1,7 +1,8 @@
-import yaml
 import logging.config
 
+import yaml
+
+
 def setup_logging():
-    with open("config/logging.yaml", "r") as file:
+    with open("config/logging.yaml") as file:
         logging.config.dictConfig(yaml.safe_load(file))
-    

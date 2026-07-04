@@ -1,4 +1,4 @@
-import json 
+import json
 import logging
 from pathlib import Path
 
@@ -15,9 +15,9 @@ def chunk_architecture_types():
         return []
 
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            logger.info(f"Loaded {len(data)} architecture types from {file_path}")
+        with open(file_path, encoding="utf-8") as file:
+            architecture_types = json.load(file)
+            logger.info(f"Loaded {len(architecture_types)} architecture types from {file_path}")
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode JSON from {file_path}: {e}")
         return []
@@ -36,20 +36,20 @@ def chunk_architecture_types():
     if not architecture_types:
         logger.warning(f"No architecture types found in {file_path}")
         return []
-        
+
     chunks = []
-    for idx, architecture_types in enumerate(architecture_types):
-        if not isinstance(architecture_types, dict):
-            logger.warning(f"Invalid architecture type data at index {idx}: {architecture_types}")
+    for idx, architecture_type in enumerate(architecture_types):
+        if not isinstance(architecture_type, dict):
+            logger.warning(f"Invalid architecture type data at index {idx}: {architecture_type}")
             continue
 
-        architecture_id = architecture_types.get("id", "")
-        architecture_name = architecture_types.get("name", "")
-        architecture_slug = architecture_types.get("slug", "")
-        architecture_description = architecture_types.get("description")
-        architecture_image_url = architecture_types.get("imageUrl", "")
-        
-        
+        architecture_id = architecture_type.get("id", "")
+        architecture_name = architecture_type.get("name", "")
+        architecture_slug = architecture_type.get("slug", "")
+        architecture_description = architecture_type.get("description")
+        architecture_image_url = architecture_type.get("imageUrl", "")
+
+
         if not architecture_name:
             logger.warning(f"Architecture type at index {idx} has no name")
             continue
@@ -66,7 +66,7 @@ def chunk_architecture_types():
             logger.warning(f"Architecture type at index {idx} has no image url")
             continue
 
-        
+
         text_parts = [
             f"Loại kiến trúc: {architecture_name}",
             f"Hình ảnh minh họa: {architecture_name} : {architecture_image_url}",
@@ -84,10 +84,10 @@ def chunk_architecture_types():
                 "architecture_image_url": architecture_image_url,
             },
         })
-    
+
     if not chunks:
         logger.warning("No chunks generated")
         return []
 
     logger.info(f"Successfully generated {len(chunks)} chunks from architecture types")
-    return chunks   
+    return chunks
