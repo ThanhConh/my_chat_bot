@@ -9,7 +9,7 @@ logger = logging.getLogger("ingestion")
 settings = load_settings()
 
 def chunk_projects():
-    file_path = Path(settings["data"]["processed_dir"] / "projects.json")
+    file_path = Path(settings["data"]["processed_dir"]) / "projects.json"
 
     if not file_path.exists():
         logger.error(f"File not found {file_path}")

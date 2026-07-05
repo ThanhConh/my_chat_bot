@@ -8,7 +8,7 @@ settings = load_settings()
 logger = logging.getLogger("ingestion")
 
 def chunk_hero_slides():
-    file_path = Path(settings["data"]["processed_dir"] / "heroSlides.json")
+    file_path = Path(settings["data"]["processed_dir"]) / "heroSlides.json"
 
     if not file_path.exists():
         logger.error(f"File not found {file_path}")
