@@ -8,7 +8,7 @@ settings = load_settings()
 logger = logging.getLogger("ingestion")
 
 def chunk_news_categories():
-    file_path = Path(settings["data"]["processed_dir"] / "newsCategories.json")
+    file_path = Path(settings["data"]["processed_dir"]) / "newsCategories.json"
 
     if not file_path.exists():
         logger.error(f"File not found {file_path}")

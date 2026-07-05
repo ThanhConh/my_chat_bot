@@ -3,7 +3,8 @@ import logging
 from pathlib import Path
 
 from bs4 import BeautifulSoup
-from core.setting_loader import load_settings
+
+from core.settings_loader import load_settings
 
 settings = load_settings()
 logger = logging.getLogger("ingestion")
@@ -16,7 +17,7 @@ def html_to_text(html:str) -> str:
     return soup.get_text(separator=' ', strip=True)
 
 def chunk_news():
-    file_path = Path(settings["data"]["processed_dir"] / "news.json")
+    file_path = Path(settings["data"]["processed_dir"]) / "news.json"
 
     if not file_path.exists():
         logger.warning(f"File not found: {file_path}")

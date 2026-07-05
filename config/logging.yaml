@@ -42,7 +42,7 @@ loggers:
     handlers: [console, file]
     propagate: no
 
-  vecto_database:
+  vector_database:
     level: INFO
     handlers: [console, file]
     propagate: no

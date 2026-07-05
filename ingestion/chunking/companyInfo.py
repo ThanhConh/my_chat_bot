@@ -8,7 +8,7 @@ settings = load_settings()
 logger = logging.getLogger("ingestion")
 
 def chunk_company_info():
-    file_path = Path(settings["data"]["processed_dir"] / "companyInfo.json")
+    file_path = Path(settings["data"]["processed_dir"]) / "companyInfo.json"
 
     # kiểm tra đường dẫn tồn tại không
     if not file_path.exists():

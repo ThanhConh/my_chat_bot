@@ -1,2 +1,6 @@
-transformer
 qdrant-client
+langchain-qdrant
+beautifulsoup4
+sentence-transformers
+ollama
+pyyaml

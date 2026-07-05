@@ -8,7 +8,7 @@ settings = load_settings()
 logger = logging.getLogger("ingestion")
 
 def chunk_interior_styles():
-    file_path = Path(settings["data"]["processed_dir"] / "interiorStyles.json")
+    file_path = Path(settings["data"]["processed_dir"]) / "interiorStyles.json"
 
     if not file_path.exists():
         logger.error(f"File not found {file_path}")

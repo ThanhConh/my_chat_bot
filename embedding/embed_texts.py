@@ -1,7 +1,7 @@
 import logging
 
 import numpy as np
-from transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 
 from core.settings_loader import load_settings
 

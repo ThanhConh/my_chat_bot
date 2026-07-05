@@ -13,8 +13,6 @@ def load_settings():
 
     # Vector database overrides
     if os.getenv("QDRANT_URL"):
-        settings["vecto_database"]["url"] = os.getenv("QDRANT_URL")
-    if os.getenv("QDRANT_URL"):
         settings["vector_database"]["url"] = os.getenv("QDRANT_URL")
     if os.getenv("QDRANT_API_KEY"):
         settings["vector_database"]["api_key"] = os.getenv("QDRANT_API_KEY")

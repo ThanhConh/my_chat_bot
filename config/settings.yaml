@@ -20,7 +20,7 @@ embedding:
   batch_size: 32
   device: cpu
 
-vecto_database:
+vector_database:
   type: qdrant
   host: localhost
   port: 6333
@@ -28,7 +28,7 @@ vecto_database:
   api_key: null # nếu dùng Qdrant Cloud
   collection_name: ltc_chatbot_collection
   distance: cosine # cosine | dot | euclid
-  vecto_size: 384
+  vector_size: 384
   timeout: 30 # connection timeout in seconds
 
 # cấu hình model llm
