@@ -16,7 +16,7 @@ __pycache__/
 *.swo
 
 # Vector Databases and Indexes
-vectostore/
+vectorstore/
 
 # Data directories (ignore contents but keep directory if needed)
 data/raw/*
