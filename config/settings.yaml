@@ -52,3 +52,8 @@ reranking:
   model: 'cross-encoder/ms-marco-MiniLM-L-6-v2'
   device: cpu
   top_k: 5
+
+# cấu hình RAG
+retrieval:
+  top_k: 5
+  score_threshold: 0.4
