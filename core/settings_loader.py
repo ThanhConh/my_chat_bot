@@ -1,9 +1,12 @@
 import os
 
 import yaml
+from dotenv import load_dotenv
 
 
 def load_settings():
+    load_dotenv() # Tải các biến môi trường từ file .env
+
     with open("config/settings.yaml") as file:
         settings = yaml.safe_load(file)
 

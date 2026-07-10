@@ -54,3 +54,10 @@ explain_module/
 
 # ruff
 .ruff_cache/
+
+# ===== PyTorch / ML =====
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.bin
