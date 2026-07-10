@@ -9,7 +9,7 @@ settings = load_settings()
 logger = logging.getLogger("llm")
 
 LLM_CONFIG = settings["llm"]
-MODEL_PROVIDER = LLM_CONFIG.get("model_provider")
+MODEL_PROVIDER = LLM_CONFIG.get("provider")
 MODEL_NAME = LLM_CONFIG.get("model_name","gpt-3.5-turbo")
 MODEL_BASE_URL = LLM_CONFIG.get("base_url","http://localhost:11434")
 MODEL_TEMPERATURE = LLM_CONFIG.get("temperature",0.2)
@@ -31,8 +31,9 @@ def generate_answer(context:str, question:str):
             client = ollama.Client(host=MODEL_BASE_URL,timeout=MODEL_TIMEOUT)
             response = client.chat(
                 model = MODEL_NAME,
-                messages =
-                    {"role": "system", "content": prompt},
+                messages = [
+                    {"role": "system", "content": prompt}
+                ],
                 options={
                     "temperature": MODEL_TEMPERATURE,
                     "num_predict": MODEL_MAX_TOKENS,
