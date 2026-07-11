@@ -294,6 +294,6 @@ Proprietary - LTC Architects
 
 ## Contact
 
-- Developer: [Your Name]
+- Developer: ThanhConh
 - Company: LTC Architects
-- Email: contact@ltc.vn
+- Email: thanhconh189@gmail.com
